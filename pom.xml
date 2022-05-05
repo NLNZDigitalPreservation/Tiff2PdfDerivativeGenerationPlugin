@@ -1,0 +1,90 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>nz.govt.natlib.ndha.plugin.tiff2pdfderivative</groupId>
+	<artifactId>Tiff2PdfDerivativeGenerationPlugin</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0</version>
+	<name>Tiff2PdfDerivativeGenerationPlugin</name>
+	<url>http://maven.apache.org</url>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.7</maven.compiler.source>
+   		<maven.compiler.target>1.7</maven.compiler.target>		
+	</properties>	
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>Create Final Release JAR</id>
+						<phase>install</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<echo
+									message="Creating the final release JAR that is pluggable to Rosetta" />
+								<property name="release.dir" value="${project.build.directory}/releaseJAR" />
+								<property name="release.bin.dir" value="${release.dir}/bin" />
+							
+								<property name="final.release.jar.name" value="Tiff2PdfDerivativeGenerationPlugin.jar" />
+								<mkdir dir="${release.dir}" />
+								<mkdir dir="${release.bin.dir}" />
+								
+								<copy todir="${release.dir}">
+									<fileset dir="${project.build.sourceDirectory}/../plugin" />
+								</copy>
+								<copy todir="${release.bin.dir}">
+									<fileset dir="${project.build.sourceDirectory}/../bin">
+										<include name="**/*" />
+									</fileset>
+								</copy>
+								<fixcrlf srcdir="${release.bin.dir}/../bin" includes="*.sh"
+									eol="lf" eof="remove" />
+								<unjar
+									src="${project.build.directory}/${project.build.finalName}.jar"
+									dest="${release.dir}">
+									<patternset>
+										<include name="META-INF/**/*" />
+									</patternset>
+								</unjar>
+
+								<jar destfile="${project.build.directory}/${final.release.jar.name}"
+									basedir="${release.dir}" />
+								<echo message="  " />
+								<echo
+									message="=============================================================" />
+								<echo
+									message="=====================       Notes       =====================" />
+								<echo
+									message="=============================================================" />
+								<echo message="  " />
+								<echo
+									message="Use the ${final.release.jar.name} JAR file in the project's" />
+								<echo message="target folder to deploy into Rosetta as a Plugin" />
+								<echo message="  " />
+								<echo
+									message="=============================================================" />
+								<echo message="  " />
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+		</plugins>
+		
+	</build>
+
+	<dependencies>
+	</dependencies>
+
+</project>
