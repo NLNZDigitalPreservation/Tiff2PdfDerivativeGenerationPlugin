@@ -1,3 +1,6 @@
+This plugins is meant to be used in ExLibris Rosetta digital preservation system. It can be used in Transformation profile. Parameters of the plugin can be edited in command exposed in the Transformation Profile Details.
+
+=================================================================
 
 Replace all `<path>` to real software path in
 `src/main/bin/Tiff2PdfDerivativeGeneration.sh` (Line 19, 38, 42, 44)
